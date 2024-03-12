@@ -2,7 +2,7 @@ const { from } = require('rxjs');
 const { mergeMap, catchError, tap } = require('rxjs/operators');
 const spotifyApi = require('../api/spotifyApi');
 
-const authorizeURL = spotifyApi.createAuthorizeURL(['user-read-playback-state', 'playlist-modify-public', 'playlist-modify-private', 'user-library-read', 'user-library-modify'], 'state');
+const authorizeURL = spotifyApi.createAuthorizeURL(['user-read-playback-state', 'playlist-modify-public', 'playlist-modify-private', 'user-library-read', 'user-library-modify', 'user-read-private', 'user-read-email'], 'state');
 
 function handleAuthorization(code) {
     return from(spotifyApi.authorizationCodeGrant(code)).pipe(
