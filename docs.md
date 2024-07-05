@@ -1,0 +1,1 @@
+After git clone, use npm install and npm init -y 

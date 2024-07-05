@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const { getUserPlaylists, createPlaylist } = require('./api/userPlaylists');
 const { getRecommendations } = require('./api/recommendations');
+const { getUserProfileDetails } = require('./api/userProfile')
 const { parse } = require('path');
 
 // Example route for getting user playlists
@@ -116,6 +117,18 @@ router.get('/get-recommendations', (req, res) => {
       res.status(500).send('Error getting recommendations!');
     }}
   );
+})
+
+router.get('/get-me', (req, res) => {
+    getUserProfileDetails().subscribe({
+      next: (data) => {
+        console.log('User profile details fetched.');
+        res.json(data.body);
+      }, error: (error) => {
+        console.log('Error fetching user profile details: ', error);
+        res.status(500).send('Error fetching user profile details.');
+      }
+    })
 })
 
 module.exports = router;
