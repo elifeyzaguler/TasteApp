@@ -3,7 +3,8 @@ const express = require('express');
 const router = express.Router();
 const { getUserPlaylists, createPlaylist } = require('./api/userPlaylists');
 const { getRecommendations } = require('./api/recommendations');
-const { getUserProfileDetails } = require('./api/userProfile')
+const { getUserProfileDetails } = require('./api/userProfile');
+const { searchTracks, searchArtists } = require('./api/search');
 const { parse } = require('path');
 
 // Example route for getting user playlists
@@ -129,6 +130,32 @@ router.get('/get-me', (req, res) => {
         res.status(500).send('Error fetching user profile details.');
       }
     })
+})
+
+router.get('/search-tracks', (req, res) => {
+  const query = req.query.query;
+  searchTracks(query).subscribe({
+    next: (data) => {
+      console.log('Search is successful!');
+      res.json(data.body);
+    }, error: (error) => {
+      console.log('Error searching tracks: ', error);
+      res.status(500).send('Error searching tracks: ', error);
+    }
+  })
+})
+
+router.get('/search-artists', (req, res) => {
+  const query = req.query.query;
+  searchArtists(query).subscribe({
+    next: (data) => {
+      console.log('Search is successful!');
+      res.json(data.body);
+    }, error: (error) => {
+      console.log('Error searching artists: ', error);
+      res.status(500).send('Error searching artists: ', error);
+    }
+  })
 })
 
 module.exports = router;
